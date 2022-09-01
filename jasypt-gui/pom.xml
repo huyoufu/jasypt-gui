@@ -31,6 +31,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>jasypt</finalName>
         <plugins>
             <!--<plugin>-->
                 <!--<artifactId>maven-jar-plugin</artifactId>-->
