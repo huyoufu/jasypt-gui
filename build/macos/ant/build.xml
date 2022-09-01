@@ -1,0 +1,21 @@
+<project name="jasypt">
+    <taskdef name="jarbundler"
+             classname="com.ultramixer.jarbundler.JarBundler" classpath="lib/jarbundler-core-3.3.0.jar" />
+
+    <jarbundler dir="release"
+                name="jasypt加密小工具"
+                mainclass="com.jk1123.sjgt.Application"
+                version="1.0"
+                copyright="jasypt Project (c) 2022"
+                type="APPL"
+                jars="bin/jasypt.jar"
+                signature="???"
+                workingdirectory="/tmp"
+                highresolutioncapable="true"
+                jvmversion="1.8*"
+                useJavaXKey="true"
+                icon="resources/icon.icns"
+                stubfile="stub/universalJavaApplicationStub"
+                vmoptions="-Xmx256m" />
+</project>
+
