@@ -1,7 +1,6 @@
 package com.jk1123.sjgt.util;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.management.ManagementFactory;
 
@@ -66,8 +65,7 @@ public class SystemUtil {
      * @return
      */
     private static boolean existProcess4Macos(int pid){
-
-        return false;
+        return existProcess4Unix("/bin/sh", pid);
     }
 
     /**
@@ -76,15 +74,18 @@ public class SystemUtil {
      * @return
      */
     private static boolean existProcess4Linux(int pid){
-        //ps -p  pid
+        return existProcess4Unix("/usr/bin/sh",pid);
+    }
+    private static boolean existProcess4Unix(String sh, int pid){
         try {
-            String[] command = { "/usr/bin/bash", "-c", "ps -p "+pid+""};
+            String[] command = { sh, "-c", "ps -p "+pid+""};
             Process process = Runtime.getRuntime().exec(command);
             String osEncoding = System.getProperty("sun.jnu.encoding");
             BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream(),osEncoding));
             String line;
             int lineLen=0;
             while ((line = br.readLine()) != null) {
+                //System.out.println(line);
                 lineLen++;
             }
             if (lineLen>1){
@@ -96,5 +97,9 @@ public class SystemUtil {
         }catch (Exception e){
             return false;
         }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(existProcess(405));
     }
 }

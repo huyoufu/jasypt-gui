@@ -9,8 +9,11 @@ import com.jk1123.sjgt.ui.databind.EncryptedData;
 import org.jasypt.encryption.StringEncryptor;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.plaf.FontUIResource;
+import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -48,6 +52,7 @@ public class MainFrame {
     private JPanel body;
     private JTextPane footer;
     private JPasswordField passwordField;
+    private JPanel footerContainer;
     private JasyptFactory jasyptFactory;
 
     public void errorDialog(String errkey) {
@@ -231,12 +236,15 @@ public class MainFrame {
     }
 
     public boolean isModified(EncryptedData data) {
-        if (passwordField.getText() != null ? !passwordField.getText().equals(data.getPasswordField()) : data.getPasswordField() != null)
+        if (passwordField.getText() != null ? !passwordField.getText().equals(data.getPasswordField()) : data.getPasswordField() != null) {
             return true;
-        if (sourceTextArea.getText() != null ? !sourceTextArea.getText().equals(data.getSourceTextArea()) : data.getSourceTextArea() != null)
+        }
+        if (sourceTextArea.getText() != null ? !sourceTextArea.getText().equals(data.getSourceTextArea()) : data.getSourceTextArea() != null) {
             return true;
-        if (resultTextArea.getText() != null ? !resultTextArea.getText().equals(data.getResultTextArea()) : data.getResultTextArea() != null)
+        }
+        if (resultTextArea.getText() != null ? !resultTextArea.getText().equals(data.getResultTextArea()) : data.getResultTextArea() != null) {
             return true;
+        }
         return false;
     }
 
@@ -260,13 +268,13 @@ public class MainFrame {
         root.setBackground(new Color(-660010));
         Font rootFont = this.$$$getFont$$$("Consolas", Font.BOLD | Font.ITALIC, 72, root.getFont());
         if (rootFont != null) root.setFont(rootFont);
-        root.setMaximumSize(new Dimension(800, 450));
-        root.setMinimumSize(new Dimension(800, 450));
-        root.setPreferredSize(new Dimension(800, 450));
+        root.setMaximumSize(new Dimension(800, 550));
+        root.setMinimumSize(new Dimension(800, 550));
+        root.setPreferredSize(new Dimension(800, 550));
         root.setRequestFocusEnabled(true);
         root.putClientProperty("html.disable", Boolean.FALSE);
         body = new JPanel();
-        body.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, 0));
+        body.setLayout(new GridLayoutManager(4, 1, new Insets(0, 0, 0, 0), -1, 0));
         root.add(body, BorderLayout.NORTH);
         passwordContainer = new JPanel();
         passwordContainer.setLayout(new GridLayoutManager(1, 3, new Insets(0, 0, 0, 0), 0, 0));
@@ -339,13 +347,17 @@ public class MainFrame {
         resultContainer.setForeground(new Color(-1));
         resultContainer.putClientProperty("html.disable", Boolean.TRUE);
         body.add(resultContainer, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, new Dimension(-1, 150), new Dimension(-1, 150), 0, false));
-        resultContainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-9309635)), "结果"));
+        resultContainer.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(-9309635)), "结果", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, null));
         resultTextArea = new JTextArea();
         resultTextArea.setColumns(80);
         resultTextArea.setEditable(false);
         resultTextArea.setLineWrap(true);
         resultTextArea.setText("");
         resultContainer.add(resultTextArea, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
+        footerContainer = new JPanel();
+        footerContainer.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        footerContainer.setEnabled(true);
+        body.add(footerContainer, new GridConstraints(3, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 150), new Dimension(-1, 150), new Dimension(-1, 150), 0, true));
         footer = new JTextPane();
         footer.setBackground(new Color(-855310));
         footer.setContentType("text/html");
@@ -356,7 +368,7 @@ public class MainFrame {
         footer.setText("<html>\n  <head>\n    \n  </head>\n  <body>\n    <div align=\"center\" style=\"margin-top: 0\">\n      &#35813;&#24037;&#20855;&#26088;&#22312;&#25552;&#20379;&#19968;&#20010;&#31616;&#21333;&#30340;gui&#25805;&#20316;jasypt&#21152;&#23494;&#36164;&#28304;.\n    </div>\n    <div align=\"center\">\n      &#22914;&#26524;&#21457;&#29616;bug,&#27426;&#36814;&#20132;&#27969;: <a href=\"https://github.com/huyoufu/jasypt-gui\">&#32852;&#31995;&#25105;- \n      github.com/huyoufu/jasypt-gui</a>\n    </div>\n  </body>\n</html>\n");
         footer.putClientProperty("charset", "UTF-8");
         footer.putClientProperty("html.disable", Boolean.FALSE);
-        root.add(footer, BorderLayout.SOUTH);
+        footerContainer.add(footer, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_SOUTH, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, new Dimension(-1, 100), new Dimension(-1, 100), new Dimension(-1, 100), 0, false));
     }
 
     /**
@@ -375,7 +387,10 @@ public class MainFrame {
                 resultName = currentFont.getName();
             }
         }
-        return new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        Font font = new Font(resultName, style >= 0 ? style : currentFont.getStyle(), size >= 0 ? size : currentFont.getSize());
+        boolean isMac = System.getProperty("os.name", "").toLowerCase(Locale.ENGLISH).startsWith("mac");
+        Font fontWithFallback = isMac ? new Font(font.getFamily(), font.getStyle(), font.getSize()) : new StyleContext().getFont(font.getFamily(), font.getStyle(), font.getSize());
+        return fontWithFallback instanceof FontUIResource ? fontWithFallback : new FontUIResource(fontWithFallback);
     }
 
     /**
@@ -384,4 +399,5 @@ public class MainFrame {
     public JComponent $$$getRootComponent$$$() {
         return root;
     }
+
 }

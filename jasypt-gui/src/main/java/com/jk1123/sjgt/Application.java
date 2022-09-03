@@ -50,6 +50,8 @@ public class Application {
 
     private static void checkOne() {
         //TODO:保证只有一个进行再运行 如果有 则唤醒/显示出原来的界面
+
+
     }
 
     private static GuiConfig loadGuiConfig() {
