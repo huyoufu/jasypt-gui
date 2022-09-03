@@ -12,15 +12,13 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.FontUIResource;
+import javax.swing.plaf.basic.BasicTreeUI;
+import javax.swing.plaf.basic.BasicTreeUI.MouseHandler;
 import javax.swing.text.StyleContext;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.net.URL;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -162,6 +160,17 @@ public class MainFrame {
     }
 
     private void initTray() {
+        frame.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                frame.setAlwaysOnTop(true);
+            }
+
+            @Override
+            public void windowLostFocus(WindowEvent e) {
+                frame.setAlwaysOnTop(false);
+            }
+        });
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -194,10 +203,22 @@ public class MainFrame {
                     try {
                         trayIcon.setImageAutoSize(true);
                         systemTray.add(trayIcon);
+                        trayIcon.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mousePressed(MouseEvent e) {
+                                if (frame.isVisible()) {
+                                    frame.setVisible(false);
+                                } else {
+                                    frame.setVisible(true);
+                                    frame.setAlwaysOnTop(true);
+                                }
 
+                            }
+                        });
                         trayIcon.addMouseListener(new MouseAdapter() {
                             @Override
                             public void mouseClicked(MouseEvent e) {
+                                System.out.println(111);
                                 //如果是右键事件
                                 if (SwingUtilities.isRightMouseButton(e)) {
                                     //System.out.println("右键菜单");
